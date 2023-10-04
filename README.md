@@ -5,10 +5,9 @@ El juego permite moverse utilizando las teclas ↑ ↓ ← → del teclado. ¡Di
 
 ## Cómo Jugar
 
-1. Descarga el código fuente.
-2. Ejecuta el archivo principal del proyecto.
-3. Sigue las instrucciones en pantalla para moverte por el laberinto.
-4. ¡Encuentra la salida y gana el juego!
+1. Ejecuta el archivo principal del proyecto.
+2. Sigue las instrucciones en pantalla para moverte por el laberinto.
+3. ¡Encuentra la salida y gana el juego!
 
 ## Requisitos
 
@@ -16,4 +15,4 @@ El juego permite moverse utilizando las teclas ↑ ↓ ← → del teclado. ¡Di
 
 ## Autor
 
-[Edgar Ortega]
+Edgar Ortega
