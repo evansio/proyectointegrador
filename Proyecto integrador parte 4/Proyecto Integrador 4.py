@@ -46,37 +46,49 @@ mostrar
 '''
 
 import os
-import readchar
+import msvcrt
 
-def convertir_laberinto(laberinto):
-    return [list(fila) for fila in laberinto.split("\n")]
+def convertir_mapa_a_matriz(laberinto):
+    # Dividir el laberinto en filas
+    filas = laberinto.split("\n")
+    matriz = [list(fila) for fila in filas]
+    return matriz
 
 def limpiar_pantalla():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def mostrar_mapa(mapa):
-    for fila in mapa:
-        print(''.join(fila))
-
 def main_loop(mapa, posicion_inicial, posicion_final):
     px, py = posicion_inicial
-
     while (px, py) != posicion_final:
-        limpiar_pantalla()
-        mapa[px][py] = 'P'
+        mapa[py][px] = "P"
         mostrar_mapa(mapa)
-        mapa[px][py] = '.'
+        
+        # Leer la tecla presionada
+        key = msvcrt.getch().decode('utf-8')
+        
+        # Calcula la nueva posición tentativa
+        nueva_px, nueva_py = px, py
+        if key == "w":
+            nueva_py -= 1
+        elif key == "s":
+            nueva_py += 1
+        elif key == "a":
+            nueva_px -= 1
+        elif key == "d":
+            nueva_px += 1
+        
+        # Verificar si la nueva posición es válida
+        if 0 <= nueva_px < len(mapa[0]) and 0 <= nueva_py < len(mapa) and mapa[nueva_py][nueva_px] != "#":
+            # Actualizar la posición y restaurar la posición anterior
+            mapa[py][px] = "."
+            px, py = nueva_px, nueva_py
+        else:
+            continue
 
-        tecla = readchar.readkey()
-        if tecla == '\x1b[A' and px > 0 and mapa[px - 1][py] != '#':
-            px -= 1  # Tecla de flecha hacia arriba
-        elif tecla == '\x1b[B' and px < len(mapa) - 1 and mapa[px + 1][py] != '#':
-            px += 1  # Tecla de flecha hacia abajo
-        elif tecla == '\x1b[D' and py > 0 and mapa[px][py - 1] != '#':
-            py -= 1  # Tecla de flecha hacia la izquierda
-        elif tecla == '\x1b[C' and py < len(mapa[0]) - 1 and mapa[px][py + 1] != '#':
-            py += 1  # Tecla de flecha hacia la derecha
-    print("¡Ganaste!")
+def mostrar_mapa(mapa):
+    limpiar_pantalla()
+    for fila in mapa:
+        print("".join(fila))
 
 laberinto = """..###################
 ....#...............#
@@ -100,7 +112,8 @@ laberinto = """..###################
 #.....#.....#.#.#.#.#
 ###################.."""
 
-mapa = convertir_laberinto(laberinto)
+mapa = convertir_mapa_a_matriz(laberinto)
 posicion_inicial = (0, 0)
-posicion_final = (len(mapa) - 1, len(mapa[0]) - 1)
+posicion_final = (len(mapa[0]) - 1, len(mapa) - 1)
+
 main_loop(mapa, posicion_inicial, posicion_final)
