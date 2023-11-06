@@ -46,7 +46,7 @@ mostrar
 '''
 
 import os
-import keyboard
+import readchar
 
 def convertir_laberinto(laberinto):
     return [list(fila) for fila in laberinto.split("\n")]
@@ -67,15 +67,15 @@ def main_loop(mapa, posicion_inicial, posicion_final):
         mostrar_mapa(mapa)
         mapa[px][py] = '.'
 
-        tecla = keyboard.read_event().name
-        if tecla == "up" and px > 0 and mapa[px - 1][py] != '#':
-            px -= 1
-        elif tecla == "down" and px < len(mapa) - 1 and mapa[px + 1][py] != '#':
-            px += 1
-        elif tecla == "left" and py > 0 and mapa[px][py - 1] != '#':
-            py -= 1
-        elif tecla == "right" and py < len(mapa[0]) - 1 and mapa[px][py + 1] != '#':
-            py += 1
+        tecla = readchar.readkey()
+        if tecla == '\x1b[A' and px > 0 and mapa[px - 1][py] != '#':
+            px -= 1  # Tecla de flecha hacia arriba
+        elif tecla == '\x1b[B' and px < len(mapa) - 1 and mapa[px + 1][py] != '#':
+            px += 1  # Tecla de flecha hacia abajo
+        elif tecla == '\x1b[D' and py > 0 and mapa[px][py - 1] != '#':
+            py -= 1  # Tecla de flecha hacia la izquierda
+        elif tecla == '\x1b[C' and py < len(mapa[0]) - 1 and mapa[px][py + 1] != '#':
+            py += 1  # Tecla de flecha hacia la derecha
     print("¡Ganaste!")
 
 laberinto = """..###################
