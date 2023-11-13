@@ -46,7 +46,7 @@ mostrar
 '''
 
 import os
-import msvcrt
+from readchar import readkey, key
 
 def convertir_mapa_a_matriz(laberinto):
     # Dividir el laberinto en filas
@@ -59,31 +59,37 @@ def limpiar_pantalla():
 
 def main_loop(mapa, posicion_inicial, posicion_final):
     px, py = posicion_inicial
+
     while (px, py) != posicion_final:
         mapa[py][px] = "P"
         mostrar_mapa(mapa)
-        
+
         # Leer la tecla presionada
-        key = msvcrt.getch().decode('utf-8')
-        
-        # Calcula la nueva posición tentativa
+        tecla = readkey()
+
+        # Restaurar la posición anterior antes de verificar si la nueva posición es válida
+        mapa[py][px] = "."
+
+        # Calcular la nueva posición tentativa
         nueva_px, nueva_py = px, py
-        if key == "w":
-            nueva_py -= 1
-        elif key == "s":
-            nueva_py += 1
-        elif key == "a":
-            nueva_px -= 1
-        elif key == "d":
-            nueva_px += 1
-        
+
+        if tecla == key.UP and py > 0 and mapa[py - 1][px] != '#':
+            nueva_py -= 1  # Flecha arriba
+        elif tecla == key.DOWN and py < len(mapa) - 1 and mapa[py + 1][px] != '#':
+            nueva_py += 1  # Flecha abajo
+        elif tecla == key.LEFT and px > 0 and mapa[py][px - 1] != '#':
+            nueva_px -= 1  # Flecha izquierda
+        elif tecla == key.RIGHT and px < len(mapa[0]) - 1 and mapa[py][px + 1] != '#':
+            nueva_px += 1  # Flecha derecha
+
         # Verificar si la nueva posición es válida
         if 0 <= nueva_px < len(mapa[0]) and 0 <= nueva_py < len(mapa) and mapa[nueva_py][nueva_px] != "#":
             # Actualizar la posición y restaurar la posición anterior
-            mapa[py][px] = "."
             px, py = nueva_px, nueva_py
         else:
             continue
+
+    print("¡Haz logrado salir del Laberinto, nos vemos en el siguiente módulo!")
 
 def mostrar_mapa(mapa):
     limpiar_pantalla()
