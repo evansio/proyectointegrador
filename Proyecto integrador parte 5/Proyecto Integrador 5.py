@@ -41,29 +41,7 @@ class Juego(BaseModel):
                 py -= 1  # Flecha izquierda
             elif tecla == key.RIGHT and py < len(self.mapa[0]) - 1 and self.mapa[px][py + 1] != '#':
                 py += 1  # Flecha derecha
-
-        # Verificar si la nueva posición es válida
-        while True:
-            nueva_px = px
-            nueva_py = py
-            tecla = readkey()
-            if tecla == key.UP:
-                nueva_py -= 1
-            elif tecla == key.DOWN:
-                nueva_py += 1
-            elif tecla == key.LEFT:
-                nueva_px -= 1
-            elif tecla == key.RIGHT:
-                nueva_px += 1
-            else:
-                pass
-
-            if 0 <= nueva_px < len(self.mapa[0]) and 0 <= nueva_py < len(self.mapa) and self.mapa[nueva_py][nueva_px] != "#":
-                # Actualizar la posición y restaurar la posición anterior
-                px, py = nueva_px, nueva_py
-            else:
-                continue
-            print ("¡Haz logrado salir del Laberinto, nos vemos en el siguiente módulo!")
+        print ("¡Haz logrado salir del Laberinto, nos vemos en el siguiente módulo!")
 
 class JuegoArchivo():
     def __init__(self):
@@ -71,7 +49,7 @@ class JuegoArchivo():
         self.juego = Juego(posicion_inicial=(0,0),laberinto=laberinto,mapa=None,posicion_final = None)
     
     def leer_archivo(self) -> str:
-        path = "C:\\Users\\thelo\\Desktop\\adaschool\\Proyecto integrador parte 5\\mapas"
+        path = "C:/Users/thelo/Desktop/adaschool/Proyecto integrador parte 5/mapas"
         laberinto = """..###################
         ....#...............#
         #.#.#####.#########.#
@@ -101,12 +79,12 @@ class JuegoArchivo():
                 with open(path+'/'+mapa,"r") as archivo:
                     laberinto = archivo.read()
             else:
-                raise NotFileError("No hay archivos en la carpeta mapas, se cargara elmapa por defecto")
+                raise NotFileError("No hay archivos en la carpeta mapas, se cargara el mapa por defecto")
         return laberinto.strip()
     
     def iniciar_juego(self):
         self.juego.convertir_laberinto(self.juego.laberinto)
-        self.juego.main_loop(self.juego.mapa,self.juego.posicion_inicial,posicion_final=(len(self.juego.mapa) - 1, len(self.juego.mapa[0]) - 1))
+        self.juego.main_loop(self.juego.mapa,self.juego.posicion_inicial,posicion_final=(len(self.juego.mapa) - 1, len(self.juego.mapa[0]) - 2))
 
 Jugar = JuegoArchivo()
 Jugar.iniciar_juego()
